@@ -14,10 +14,10 @@ And Oozie is like Cron of unix world as well. It helps to schedule the jobs and 
 4.Run mapreduce jobs through Oozie. job/workflow details are in folder mapreduce-jobs.
 
 
-/oozie job -oozie http://hostname:11000/oozie -config examples/apps/map-reduce/job.properties -run 
-/job: 0000014-190123083458183-oozie-oozi-W
+$oozie job -oozie http://hostname:11000/oozie -config examples/apps/map-reduce/job.properties -run 
+job: 0000014-190123083458183-oozie-oozi-W
 
-/oozie job -oozie http://localhost:11000/oozie -info 0000014-190123083458183-oozie-oozi-W
+$oozie job -oozie http://localhost:11000/oozie -info 0000014-190123083458183-oozie-oozi-W
 Job ID : 0000014-190123083458183-oozie-oozi-W
 Workflow Name : map-reduce-wf
 App Path      : hdfs://hostname/user/oozie/wc1
@@ -35,8 +35,9 @@ Actions
 ID                                                                            Status    Ext ID                 Ext Status Err Code
 0000014-190123083458183-oozie-oozi-W@:start:                                  OK        -                      OK         -
 0000014-190123083458183-oozie-oozi-W@mr-node                                  OK        job_1401405229971_0022 SUCCEEDED  -
-0000014-190123083458183-oozie-oozi-W@end                                      OK        -                      OK         -
-//
+0000014-190123083458183-oozie-oozi-W@end                                      OK        -                      OK
+
+$
 
 
 
