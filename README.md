@@ -4,17 +4,21 @@ Oozie combines multiple jobs sequentially into one logical unit of work. It is i
 And Oozie is like Cron of unix world as well. It helps to schedule the jobs and tracking the status.
 
 
-1.install/configure the hdfs. let's create the single node cluster to test the setup.
+1.Install/configure the hdfs. let's create the single node cluster to test the setup.
 
-2. install/configure oozie and replace the default derby database with mysql or postgresql. here we use mysql.
+2.Install/configure oozie and replace the default derby database with mysql or postgresql. here we use mysql.
 
-3. integrates the oozie library packages to hdfs and get the appropriate permission/ownership in place. Otherwise, it will be difficult to troubleshoot the jobs when it fails.
+3.Integrates the oozie library packages to hdfs and get the appropriate permission/ownership in place. Otherwise, it will be difficult to troubleshoot the jobs when it fails.
 
-4.  run mapreduce jobs through Oozie. job/workflow details are in folder mapreduce-jobs.
-#oozie job -oozie http://hostname:11000/oozie -config examples/apps/map-reduce/job.properties -run 
+
+4.Run mapreduce jobs through Oozie. job/workflow details are in folder mapreduce-jobs.
++++
+oozie job -oozie http://hostname:11000/oozie -config examples/apps/map-reduce/job.properties -run 
 job: 0000014-190123083458183-oozie-oozi-W
++++
 
-#oozie job -oozie http://localhost:11000/oozie -info 0000014-190123083458183-oozie-oozi-W
++++
+oozie job -oozie http://localhost:11000/oozie -info 0000014-190123083458183-oozie-oozi-W
 Job ID : 0000014-190123083458183-oozie-oozi-W
 ------------------------------------------------------------------------------------------------------------------------------------
 Workflow Name : map-reduce-wf
@@ -43,7 +47,7 @@ ID                                                                            St
 
 
 
-5. run spark jobs using Oozie workflow.  Details are in the folder spark-jobs. follow the same steps as what follwed at running mapreduce job previously. 
+5.Run spark jobs using Oozie workflow.  Details are in the folder spark-jobs. follow the same steps as what follwed at running mapreduce job previously. 
 
 6.Scheduling Oozie jobs. Once the jobs are functioning fine, we can use the cron like scheduling jobs through "frequency" parameter. Oozie offers a cron like syntax structure to schedule/run the jon at particulat time or in regular interval.
 
