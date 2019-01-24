@@ -1,0 +1,43 @@
+<configuration>
+
+<property>
+	<name>dfs.namenode.name.dir</name>
+	<value>file:///hdfs/NN</value>
+</property>
+<property>
+	<name>dfs.namenode.checkpoint.dir</name>
+	<value>file:///hdfs/SNN</value>
+</property>
+<property>
+	<name>dfs.namenode.checkpoint.period</name>
+	<value>21600</value>
+	<description>6 hours to fetch the namenode logs</description>
+</property>
+<property>
+	<name>dfs.datanode.data.dir</name>
+ 	<value>file:///disk1/DN,file:///disk2/DN</value>
+</property>
+<property>
+	<name>dfs.replication</name>
+	<value>1</value>
+</property>
+
+<property>
+	<name>dfs.datanode.du.reserved</name>
+	<value>10737418</value>
+	<description>This is the reserved space for non dfs use.. 10GB</description>
+</property>
+<property>
+<!-- 8000Mbit/s -->
+	<name>dfs.balance.bandwidthPerSec</name>
+	<value>8000000000</value>
+</property>
+
+<property>
+  <name>dfs.hosts.exclude</name>
+  <value>/etc/hadoop/conf/exclude</value>
+	<final>true</final>
+</property>
+
+
+</configuration>

@@ -1,0 +1,61 @@
+<workflow-app xmlns="uri:oozie:workflow:0.1" name="map-reduce-wf">
+ <start to="mr-node"/>
+ <action name="mr-node">
+     <map-reduce>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <prepare>
+         <delete path="${nameNode}/wc1/output"/>
+       </prepare>
+ 
+   <configuration>
+     <property>
+       <name>mapred.mapper.new-api</name>
+       <value>true</value>
+     </property>
+     <property>
+       <name>mapred.reducer.new-api</name>
+       <value>true</value>
+     </property>
+     <property>
+       <name>mapred.job.queue.name</name>
+       <value>${queueName}</value>
+     </property>
+     <property>
+       <name>mapreduce.map.class</name>
+       <value>org.apache.hadoop.examples.WordCount$TokenizerMapper</value>
+     </property>
+     <property>
+       <name>mapreduce.reduce.class</name>
+       <value>org.apache.hadoop.examples.WordCount$IntSumReducer</value>
+     </property>
+     <property>
+       <name>mapreduce.combine.class</name>
+       <value>org.apache.hadoop.examples.WordCount$IntSumReducer</value>
+     </property>
+     <property>
+       <name>mapred.output.key.class</name>
+       <value>org.apache.hadoop.io.Text</value>
+     </property>
+     <property>
+       <name>mapred.output.value.class</name>
+       <value>org.apache.hadoop.io.IntWritable</value>
+     </property>
+     <property>
+       <name>mapred.input.dir</name>
+       <value>/tmp/wc1</value>
+     </property>
+     <property>
+       <name>mapred.output.dir</name>
+       <value>/tmp/wc1/output</value>
+     </property>
+   </configuration>
+  </map-reduce>
+  <ok to="end"/>
+  <error to="fail"/>
+ </action>
+   <kill name="fail">
+   <message>Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+   </kill>
+   <end name="end"/>
+</workflow-app>

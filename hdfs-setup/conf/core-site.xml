@@ -1,0 +1,41 @@
+<configuration>
+
+<property>
+	<name>fs.defaultFS</name>
+	<value>hdfs://hostname:8020</value>
+</property>
+<property>
+	<name>hadoop.proxyuser.mapred.groups</name>
+	<value>*</value>
+</property>
+<property>
+	<name>hadoop.proxyuser.mapred.hosts</name>
+	<value>*</value>
+</property>
+
+<property>
+      <name>hadoop.proxyuser.oozie.hosts</name>                                  
+      <value>*</value>
+ </property>
+
+ <property>
+      <name>hadoop.proxyuser.oozie.groups</name>
+      <value>*</value>
+ </property>
+
+
+
+<property>
+	<name>fs.trash.interval</name>
+	<value>720</value>
+	<description>Number of minutes after which the checkpoint  gets deleted. If zero, the trash feature is disabled.
+	</description>
+</property>
+<property>
+	<name>fs.trash.checkpoint.interval</name>
+	<value>360</value>
+	<description>Number of minutes between trash checkpoints. Should be smaller or equal to fs.trash.interval. Every time the checkpointer runs it creates a new checkpoint out of current and removes checkpoints created more thanfs.trash.interval minutes ago.
+	 </description>
+</property>
+
+</configuration>

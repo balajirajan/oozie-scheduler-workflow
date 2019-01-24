@@ -1,0 +1,101 @@
+#Install Oozie through cdh repo:
+yum install oozie
+yum install oozie-client
+
+# mysql setup:
+Install the mysql and get the basic setup ready. I choose mysql instead of oracle/postgresql/mariadb since i familiar with mysql.
+
+
+* Create the suffient scheme for the user oozie to access the database.
+mysql
+>create database oozie default character set utf8;
+>grant all privileges on oozie.* to 'oozie'@'localhost' identified by 'Oozie@2019#';
+>grant all privileges on oozie.* to 'oozie'@'%' identified by 'Oozie@2019#';
+
+
+# We need to install mysql driver to make connection between mysql and java.
+wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.13.tar.gz
+mv mysql-connector-java-8.0.13.tar.gz  /var/lib/oozie/
+  
+
+# Configure Oozie to Use MySQL
+Edit properties in the oozie-site.xml file as follows:
+
+...
+    <property>
+        <name>oozie.service.JPAService.jdbc.driver</name>
+        <value>com.mysql.jdbc.Driver</value>
+    </property>
+    <property>
+        <name>oozie.service.JPAService.jdbc.url</name>
+        <value>jdbc:mysql://localhost:3306/oozie</value>
+    </property>
+    <property>
+        <name>oozie.service.JPAService.jdbc.username</name>
+        <value>oozie</value>
+    </property>
+    <property>
+        <name>oozie.service.JPAService.jdbc.password</name>
+        <value>oozie</value>
+    </property>
+    ...
+
+
+
+
+#To run the Oozie database tool against the database
+
+This step must be done as the oozie Unix user, otherwise Oozie may fail to start or work properly because of incorrect file permissions.
+$sudo -u oozie /usr/lib/oozie/bin/ooziedb.sh create -run
+
+
+
+# To install the Oozie shared library in Hadoop HDFS in the oozie user home directory
+$ sudo -u hdfs hadoop fs -mkdir /user/oozie
+$ sudo -u hdfs hadoop fs -chown oozie:oozie /user/oozie
+$ sudo oozie-setup sharelib create -fs <FS_URI> -locallib /usr/lib/oozie/oozie-sharelib-yarn
+
+# edit the oozie-site.xml file and add the below properties to allow the user oozie to access hdfs systems.
+    <property>
+        <name>oozie.service.ProxyUserService.proxyuser.hue.hosts</name>
+        <value>*</value>
+    </property>
+
+    <property>
+        <name>oozie.service.ProxyUserService.proxyuser.hue.groups</name>
+        <value>*</value>
+    </property>
+
+    <property>
+     <name>oozie.service.HadoopAccessorService.supported.filesystems</name>
+     <value>hdfs,viewfs</value>
+    </property>
+
+
+# Enabling UI interface to access ooize.
+
+# install the UI packages
+cd /var/lib/oozie
+wget https://archive.cloudera.com/gplextras/misc/ext-2.2.zip
+tar -xvzf ext-2.2.zip 
+unzip ext-2.2.zip 
+chown -R oozie:oozie ext-2.2
+
+
+# To access the oozie interface in browser.
+config should be updated to run on FQDN or public ip address
+
+vim /etc/oozie/conf/oozie-env.sh
+grep OOZIE_HTTP_HOSTNAME * /change the hostname to 0.0.0.0 in oozie-env.sh 
+
+
+
+# Start the oozie service
+$service oozie start
+
+
+#check the service status
+$ oozie admin -oozie http://localhost:11000/oozie -status
+System mode: NORMAL
+
+It's done.

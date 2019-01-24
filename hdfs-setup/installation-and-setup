@@ -1,0 +1,49 @@
+				installation:
+				==============
+
+We are going to use the single node for the setup:
+
+# Cloudera repo:
+================
+wget -O /etc/yum.repos.d/cloudera-cdh5.repo https://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/cloudera-cdh5.repo 
+wget -O cloudera-gplextras5.repo  https://archive.cloudera.com/gplextras5/redhat/7/x86_64/gplextras/cloudera-gplextras5.repo
+sudo rpm --import https://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/RPM-GPG-KEY-cloudera
+
+
+masternode:
+===========
+sudo yum clean all; 
+sudo yum install hadoop-yarn-resourcemanager
+sudo yum install hadoop-hdfs-namenode
+sudo yum install hadoop-hdfs-secondarynamenode
+sudo yum install hadoop-mapreduce-historyserver hadoop-yarn-proxyserver
+
+Slavenode:
+============
+sudo yum clean all; sudo yum install hadoop-yarn-nodemanager hadoop-hdfs-datanode hadoop-mapreduce hadoop-lzo spark-core spark-master spark-worker spark-history-server spark-python oozie oozie-client
+
+
+##Basis system setup to run the hdfs/yarn cluster##
+
+# create the directory structure for hdfs and yarn cluster 
+mkdir -p  /hdfs/yarn/local ;
+mkdir -p  /hdfs/yarn/logs ;
+chown -R yarn:yarn /hdfs/yarn ;
+mkdir -p  /hdfs/DN ;
+chown -R hdfs:hdfs /disk/DN ;
+
+
+# format the namenode
+sudo -u hdfs  hadoop namenode -format
+
+#start the namenode and datanode
+/etc/init.d/hadoop-hdfs-namenode start
+/etc/init.d/hadoop-hdfs-datanode start
+
+# start the yarn resource manager and 
+/etc/init.d/hadoop-yarn-resourcemanager start ; 
+/etc/init.d/hadoop-yarn-nodemanager start
+
+# verify the cluster setup through UI
+hdfs: http://<public-ip of the node>:50070/dfshealth.html
+yarn: http://<public-ip of the node>:8088/cluster/apps

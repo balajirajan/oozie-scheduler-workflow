@@ -1,0 +1,60 @@
+<configuration>
+
+<property>
+	<name>mapreduce.framework.name</name>
+	<value>yarn</value>
+</property>
+<property>
+	<name>mapred.child.java.opts</name>
+	<value>-Xmx2048m -XX:-UseGCOverheadLimit</value>
+</property>
+
+<property>
+	<name>mapreduce.map.memory.mb</name>
+	<value>1024</value>
+</property>
+<property>
+	<name>mapreduce.reduce.memory.mb</name>
+	<value>1024</value>
+</property>
+<property>
+	<name>mapreduce.map.cpu.vcores</name>
+	<value>1</value>
+</property>
+<property>
+	<name>mapreduce.reduce.cpu.vcores</name>
+	<value>1</value>
+</property>
+<property>
+	<name>mapreduce.map.java.opts</name>
+        <value>-Xmx1024m</value>
+</property>
+<property>
+        <name>mapreduce.reduce.java.opts</name>
+        <value>-Xmx1024m</value>
+</property>
+
+<property>
+	<name>mapreduce.jobhistory.address</name>
+	<value>0.0.0.0:10020</value>
+ 	</property>
+<property>
+	<name>mapreduce.jobhistory.webapp.address</name>
+        <value>0.0.0.0:19888</value>
+</property>
+<property>
+	<name>mapreduce.jobhistory.intermediate-done-dir</name>
+        <value>/user/history/done_intermediate</value>
+</property>
+<property>
+	<name>mapreduce.jobhistory.done-dir</name>
+        <value>/user/history/done</value>
+</property>
+
+<property>
+<name>mapreduce.job.split.metainfo.maxsize</name>
+    <value>-1</value>
+</property>
+
+</configuration>
+
